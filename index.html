@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Deletion Request — Grace Technology Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #1A1A1E;
+      --surface:   #24242A;
+      --border:    #36363F;
+      --gold:      #C9A84C;
+      --gold-mute: #8A7133;
+      --gold-pale: #EAD89A;
+      --text:      #F0EDE6;
+      --text-sub:  #9C9898;
+      --text-dim:  #6B6868;
+      --danger:    #E05C5C;
+      --success:   #5CB88A;
+      --radius:    10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: var(--gold);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 18px; height: 18px; }
+
+    .logo-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .logo-name span { color: var(--gold); }
+
+    /* ── MAIN LAYOUT ─────────────────────────── */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 60px 20px 80px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 620px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+      animation-delay: 0.1s;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .shield-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px; height: 64px;
+      background: #2C2718;
+      border: 1.5px solid var(--gold-mute);
+      border-radius: 16px;
+      margin-bottom: 22px;
+    }
+    .shield-wrap svg { width: 32px; height: 32px; }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--gold-pale);
+    }
+
+    .hero-sub {
+      color: var(--text-sub);
+      font-size: 14.5px;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── WHAT GETS DELETED ───────────────────── */
+    .scope-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin-bottom: 32px;
+    }
+
+    .scope-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .scope-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+    }
+
+    .scope-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      color: var(--text-sub);
+    }
+
+    .scope-item::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold-mute);
+      flex-shrink: 0;
+    }
+
+    /* ── FORM CARD ───────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 24px;
+    }
+
+    /* ── FORM FIELDS ─────────────────────────── */
+    .field { margin-bottom: 20px; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-sub);
+      margin-bottom: 7px;
+      letter-spacing: 0.01em;
+    }
+
+    label .req { color: var(--gold); margin-left: 2px; }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 11px 14px;
+      transition: border-color 0.15s;
+      outline: none;
+      appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--gold-mute);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
+    }
+
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239C9898' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+    }
+
+    select option { background: #24242A; }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ── CHECKBOX ────────────────────────────── */
+    .check-field {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .check-field input[type="checkbox"] {
+      width: 17px; height: 17px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg);
+      appearance: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .check-field input[type="checkbox"]:checked {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .check-field input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px; top: 1.5px;
+      width: 6px; height: 10px;
+      border: 2px solid #1A1A1E;
+      border-top: none; border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .check-label {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* ── SUBMIT BUTTON ───────────────────────── */
+    .btn-submit {
+      width: 100%;
+      background: var(--gold);
+      color: #1A1A1E;
+      font-family: 'Inter', sans-serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-submit:hover { background: var(--gold-pale); }
+    .btn-submit:active { transform: scale(0.995); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ── VALIDATION ──────────────────────────── */
+    .field-error {
+      font-size: 12px;
+      color: var(--danger);
+      margin-top: 5px;
+      display: none;
+    }
+    .field-error.show { display: block; }
+    .field.invalid input,
+    .field.invalid select,
+    .field.invalid textarea { border-color: var(--danger); }
+
+    /* ── SUCCESS STATE ───────────────────────── */
+    .success-panel {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    .success-panel.show { display: block; }
+
+    .success-icon {
+      width: 60px; height: 60px;
+      background: rgba(92,184,138,0.12);
+      border: 1.5px solid var(--success);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .success-icon svg { width: 28px; height: 28px; }
+
+    .success-panel h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .success-panel p {
+      color: var(--text-sub);
+      font-size: 14px;
+      max-width: 380px;
+      margin: 0 auto 24px;
+      line-height: 1.7;
+    }
+
+    .ref-badge {
+      display: inline-block;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: var(--text-sub);
+      letter-spacing: 0.04em;
+    }
+    .ref-badge strong { color: var(--gold); font-weight: 600; }
+
+    /* ── TIMELINE ────────────────────────────── */
+    .timeline {
+      margin: 32px 0 0;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .tl-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 11.5px;
+      color: var(--text-dim);
+      gap: 6px;
+      text-align: center;
+      width: 100px;
+      position: relative;
+    }
+
+    .tl-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 10px; left: calc(50% + 10px);
+      width: calc(100% - 20px);
+      height: 1px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .tl-dot {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--border);
+      border: 2px solid var(--border);
+      position: relative;
+    }
+
+    .tl-step.done .tl-dot {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .tl-step.done { color: var(--text-sub); }
+
+    .tl-step .tl-label { line-height: 1.4; }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    footer p {
+      font-size: 12.5px;
+      color: var(--text-dim);
+    }
+
+    footer a {
+      color: var(--gold-mute);
+      text-decoration: none;
+      font-size: 12.5px;
+      transition: color 0.15s;
+    }
+    footer a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 520px) {
+      header { padding: 16px 20px; }
+      h1 { font-size: 26px; }
+      .card { padding: 22px 18px; }
+      .field-row { grid-template-columns: 1fr; }
+      .scope-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .timeline { gap: 4px; }
+      .tl-step { width: 80px; font-size: 10.5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .container { animation: none; opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────── -->
+<header>
+  <div class="logo-mark" aria-hidden="true">
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 1.5L2.25 4.5V9C2.25 12.728 5.18 16.218 9 17.25C12.82 16.218 15.75 12.728 15.75 9V4.5L9 1.5Z" fill="#1A1A1E" stroke="#1A1A1E" stroke-width="0.5"/>
+      <path d="M6 9L8 11L12 7" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <span class="logo-name">Grace <span>Technology</span> Group</span>
+</header>
+
+<!-- ── MAIN ───────────────────────────────────── -->
+<main>
+  <div class="container">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="shield-wrap" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 3L4 8V15C4 21.627 9.373 27.627 16 29C22.627 27.627 28 21.627 28 15V8L16 3Z" stroke="#C9A84C" stroke-width="1.5" fill="rgba(201,168,76,0.08)"/>
+          <path d="M11 16L14 19L21 12" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 9V15" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="16" cy="19" r="1" fill="#C9A84C"/>
+        </svg>
+      </div>
+      <h1>Request <em>data deletion</em><br/>from our apps</h1>
+      <p class="hero-sub">
+        You have the right to have your personal data removed from any app published by Grace Technology Group.
+        Complete the form below and we will process your request within 30 days.
+      </p>
+    </div>
+
+    <!-- What gets deleted -->
+    <div class="scope-box" role="complementary" aria-label="What will be deleted">
+      <div class="scope-label">What gets removed</div>
+      <div class="scope-grid">
+        <div class="scope-item">Account &amp; profile data</div>
+        <div class="scope-item">Location history</div>
+        <div class="scope-item">In-app activity logs</div>
+        <div class="scope-item">Device identifiers</div>
+        <div class="scope-item">Uploaded content</div>
+        <div class="scope-item">Analytics linked to you</div>
+      </div>
+    </div>
+
+    <!-- Form card -->
+    <div class="card">
+      <div id="form-section">
+        <p class="card-title">Your details</p>
+
+        <form id="deletion-form" novalidate>
+
+          <div class="field-row">
+            <div class="field" id="field-name">
+              <label for="full-name">Full name <span class="req">*</span></label>
+              <input type="text" id="full-name" name="full_name" placeholder="Jane Doe" autocomplete="name" />
+              <div class="field-error" id="err-name">Please enter your full name.</div>
+            </div>
+            <div class="field" id="field-email">
+              <label for="email">Email address <span class="req">*</span></label>
+              <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" />
+              <div class="field-error" id="err-email">Please enter a valid email address.</div>
+            </div>
+          </div>
+
+          <div class="field" id="field-app">
+            <label for="app-name">App <span class="req">*</span></label>
+            <select id="app-name" name="app_name">
+              <option value="" disabled selected>Select the app you used</option>
+              <option value="PinIt">PinIt</option>
+              <option value="VoiceChorus">VoiceChorus</option>
+              <option value="Other">Other / Not sure</option>
+            </select>
+            <div class="field-error" id="err-app">Please select which app this request is for.</div>
+          </div>
+
+          <div class="field" id="field-uid">
+            <label for="user-id">User ID or username <span style="color:var(--text-dim);font-weight:400;">(optional)</span></label>
+            <input type="text" id="user-id" name="user_id" placeholder="Found in app settings under Account" />
+          </div>
+
+          <div class="field" id="field-reason">
+            <label for="reason">Reason for request <span style="color:var(--text-dim);font-weight:400;">(optional)</span></label>
+            <textarea id="reason" name="reason" placeholder="You are not required to provide a reason, but it helps us improve."></textarea>
+          </div>
+
+          <div class="check-field">
+            <input type="checkbox" id="confirm-check" name="confirm" />
+            <label for="confirm-check" class="check-label">
+              I confirm that I am the account holder or an authorised representative, and I understand
+              that this action is <strong>permanent and cannot be undone</strong>.
+            </label>
+          </div>
+          <div class="field-error show" id="err-confirm" style="margin-top:-20px; margin-bottom:20px; display:none;">You must confirm before submitting.</div>
+
+          <button type="submit" class="btn-submit" id="submit-btn">Submit deletion request</button>
+
+        </form>
+      </div>
+
+      <!-- Success panel -->
+      <div class="success-panel" id="success-panel" aria-live="polite">
+        <div class="success-icon" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 14L11 19L22 8" stroke="#5CB88A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2>Request received</h2>
+        <p>
+          We've logged your deletion request. You'll receive a confirmation to the email address
+          you provided. Requests are processed within <strong>30 days</strong>.
+        </p>
+        <div class="ref-badge">Reference: <strong id="ref-number">—</strong></div>
+
+        <div class="timeline" aria-label="Request stages">
+          <div class="tl-step done">
+            <div class="tl-dot"></div>
+            <span class="tl-label">Request<br/>received</span>
+          </div>
+          <div class="tl-step">
+            <div class="tl-dot"></div>
+            <span class="tl-label">Identity<br/>verified</span>
+          </div>
+          <div class="tl-step">
+            <div class="tl-dot"></div>
+            <span class="tl-label">Data<br/>removed</span>
+          </div>
+          <div class="tl-step">
+            <div class="tl-dot"></div>
+            <span class="tl-label">Confirmation<br/>sent</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ── FOOTER ─────────────────────────────────── -->
+<footer>
+  <p>© 2025 Grace Technology Group. All rights reserved.</p>
+  <div style="display:flex;gap:20px;">
+    <a href="mailto:privacy@gracetechgroup.co.za">privacy@gracetechgroup.co.za</a>
+    <a href="#">Privacy Policy</a>
+  </div>
+</footer>
+
+<script>
+  const form       = document.getElementById('deletion-form');
+  const formSec    = document.getElementById('form-section');
+  const successPan = document.getElementById('success-panel');
+  const refNum     = document.getElementById('ref-number');
+  const submitBtn  = document.getElementById('submit-btn');
+
+  function validateEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  }
+
+  function setFieldError(fieldId, errId, show) {
+    const field = document.getElementById(fieldId);
+    const err   = document.getElementById(errId);
+    if (show) {
+      field.classList.add('invalid');
+      err.classList.add('show');
+    } else {
+      field.classList.remove('invalid');
+      err.classList.remove('show');
+    }
+    return !show;
+  }
+
+  function generateRef() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let r = 'GTG-';
+    for (let i = 0; i < 8; i++) r += chars[Math.floor(Math.random() * chars.length)];
+    return r;
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name    = document.getElementById('full-name').value;
+    const email   = document.getElementById('email').value;
+    const app     = document.getElementById('app-name').value;
+    const confirm = document.getElementById('confirm-check').checked;
+    const errC    = document.getElementById('err-confirm');
+
+    let valid = true;
+    valid = setFieldError('field-name', 'err-name', !name.trim()) && valid;
+    valid = setFieldError('field-email', 'err-email', !validateEmail(email)) && valid;
+    valid = setFieldError('field-app', 'err-app', !app) && valid;
+
+    if (!confirm) {
+      errC.style.display = 'block';
+      valid = false;
+    } else {
+      errC.style.display = 'none';
+    }
+
+    if (!valid) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    // ── REPLACE THIS with your real form submission endpoint ──────────────────
+    // Options: Formspree, EmailJS, Netlify Forms, a backend endpoint, etc.
+    // Example with Formspree:
+    //   fetch('https://formspree.io/f/YOUR_FORM_ID', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    //     body: JSON.stringify({ name, email, app, reason: document.getElementById('reason').value })
+    //   })
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // Simulated delay — remove once wired to a real endpoint
+    setTimeout(() => {
+      refNum.textContent = generateRef();
+      formSec.style.display = 'none';
+      successPan.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 900);
+  });
+
+  // Live clear errors on input
+  ['full-name','email','app-name'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+      this.closest('.field')?.classList.remove('invalid');
+    });
+  });
+</script>
+
+</body>
+</html>
